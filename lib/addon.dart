@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 
 class Addon extends StatefulWidget {
+  const Addon({super.key});
+
   @override
   State<Addon> createState() => _AddonState();
 }
 
 class _AddonState extends State<Addon> {
-  Map<String, int> foodQuantities = {
-    "Fried Rice": 0,
-    "Noodles": 0,
-    "Fried Chicken": 0,
-    "Chicken Biryani": 0,
-    "Shawarma": 0,
-  };
+  // Food item data
+  final List<Map<String, dynamic>> foodItems = [
+    {"name": "Fried Rice", "price": 120.00, "quantity": 0},
+    {"name": "Noodles", "price": 80.00, "quantity": 0},
+    {"name": "Fried Chicken", "price": 80.00, "quantity": 0},
+    {"name": "Chicken Biryani", "price": 150.00, "quantity": 0},
+    {"name": "Shawarma", "price": 40.00, "quantity": 0},
+    {"name": "Burger", "price": 60.00, "quantity": 0},
+    {"name": "French Fries", "price": 40.00, "quantity": 0},
+    {"name": "Pasta", "price": 60.00, "quantity": 0},
+    {"name": "Tandoori Chicken", "price": 100.00, "quantity": 0},
+    {"name": "Pizza", "price": 100.00, "quantity": 0},
+  ];
 
-  Map<String, double> foodPrices = {
-    "Fried Rice": 120.00,
-    "Noodles": 80.00,
-    "Fried Chicken": 80.00,
-    "Chicken Biryani": 150.00,
-    "Shawarma": 40.00,
-  };
-
-  double getTotalPrice() {
-    double total = 0.0;
-    foodQuantities.forEach((key, value) {
-      total += value * foodPrices[key]!;
+  // Function to increase the quantity of an item
+  void _increaseQuantity(int index) {
+    setState(() {
+      foodItems[index]["quantity"]++;
     });
+  }
+
+  // Function to decrease the quantity of an item
+  void _decreaseQuantity(int index) {
+    setState(() {
+      if (foodItems[index]["quantity"] > 0) {
+        foodItems[index]["quantity"]--;
+      }
+    });
+  }
+
+  // Calculate total price
+  double _calculateTotalPrice() {
+    double total = 0.0;
+    for (var item in foodItems) {
+      total += item["price"] * item["quantity"];
+    }
     return total;
   }
 
@@ -34,83 +51,100 @@ class _AddonState extends State<Addon> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Addon"),
+        title: const Text('Addon'),
         backgroundColor: Colors.purple,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: foodQuantities.keys.length,
-              itemBuilder: (context, index) {
-                String foodName = foodQuantities.keys.elementAt(index);
-                return Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    leading: Image.asset('assets/images/${foodName.toLowerCase().replaceAll(" ", "_")}.png', height: 50, width: 50, fit: BoxFit.cover),
-                    title: Text(foodName),
-                    subtitle: Text("Price: Rs.${foodPrices[foodName]?.toStringAsFixed(2)}"),
-                    trailing: Container(
-                      width: 120,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+      body: ListView.builder(
+        itemCount: foodItems.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Stack(
+              children: [
+                // Background image
+                Container(
+                  height: 150, // Set a fixed height for the background image
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'img/${foodItems[index]["name"].toLowerCase().replaceAll(" ", "_")}.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+                // Content on top of the image
+                Container(
+                  height: 150, // Match height with the background container
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5), // Semi-transparent overlay
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        foodItems[index]["name"],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // White color for text
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Price: Rs.${foodItems[index]["price"]}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.remove),
-                            onPressed: () {
-                              setState(() {
-                                if (foodQuantities[foodName]! > 0) {
-                                  foodQuantities[foodName] = foodQuantities[foodName]! - 1;
-                                }
-                              });
-                            },
+                            onPressed: () => _decreaseQuantity(index),
+                            icon: const Icon(Icons.remove, color: Colors.white),
                           ),
-                          Text('Quantity: ${foodQuantities[foodName]}'),
+                          Text(
+                            'Quantity: ${foodItems[index]["quantity"]}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
                           IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () {
-                              setState(() {
-                                foodQuantities[foodName] = foodQuantities[foodName]! + 1;
-                              });
-                            },
+                            onPressed: () => _increaseQuantity(index),
+                            icon: const Icon(Icons.add, color: Colors.white),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                );
-              },
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(20),
-            color: Colors.black,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total Price: Rs.${getTotalPrice().toStringAsFixed(2)}",
-                  style: TextStyle(color: Colors.purple, fontSize: 20),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple, // background
-                  ),
-                  onPressed: () {
-                    // Handle Order action
-                  },
-                  child: Text("Order"),
                 ),
               ],
             ),
+          );
+        },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        padding: EdgeInsets.zero,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          color: Colors.black,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total Price: Rs.${_calculateTotalPrice().toStringAsFixed(2)}',
+                style: const TextStyle(color: Colors.purple, fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                child: const Text('Order',style: TextStyle(color: Colors.purple)),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

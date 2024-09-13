@@ -5,6 +5,7 @@ import 'package:foodbite/foodorder.dart';
 import 'package:foodbite/login.dart';
 import 'package:foodbite/recharge.dart';
 import 'package:foodbite/home.dart';
+import 'package:foodbite/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,12 +19,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Food Bite',
+      //theme: ThemeData(fontFamily: 'Crimson'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         useMaterial3: true,
       ),
-      home: Login(),
+      home: const Dashboard(),
     );
   }
 }

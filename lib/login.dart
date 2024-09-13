@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:foodbite/register.dart';
 import 'package:foodbite/dashboard.dart';
-import 'dart:ui';
+import 'package:foodbite/register.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   State<Login> createState() => _LoginState();
 }
-
-final TextStyle customFont = TextStyle(
-  fontFamily: 'CustomFont',
-);
 
 class _LoginState extends State<Login> {
   final TextEditingController _usernameController = TextEditingController();
@@ -19,123 +16,145 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xffef5e5e),
-                Color(0xffec845a),
-              ]),
-        ),
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          children: [
-            SizedBox(height: 150),
-            Container(
-              height: 340,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.transparent.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Login",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'customFont',
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    TextField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                        labelStyle: customFont,
-                        icon: Icon(Icons.person),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    TextField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        labelStyle: customFont,
-                        icon: Icon(Icons.lock),
-                      ),
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 60),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_usernameController.text == "user" &&
-                            _passwordController.text == "pass") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Dashboard()));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Invalid username or password'),
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green, // change button color here
-                        foregroundColor: Colors.white, // change text color here
-                        elevation: 5, // add shadow
-                      ),
-                      child: const Text(
-                        '          Login          ',
-                        style: TextStyle(
-                          fontFamily: 'customfont',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+      resizeToAvoidBottomInset: false,
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
             ),
-            SizedBox(height: 10),
-            Text(
-              "or",
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'customfont',
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo
+              Image.asset(
+                'img/foodlogo.png',
+                height: 150,
+                width: 150,
               ),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // change button color here
-                foregroundColor: Colors.white, // change text color here
-                elevation: 5, // add shadow
-              ),
-              child: Text(
-                '          Register          ',
+              const SizedBox(height: 30),
+
+              // Login Text
+              const Text(
+                'Login',
                 style: TextStyle(
-                  fontFamily: 'customfont',
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black, fontFamily: "Crimson"
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Register()),
-                );
-              },
-            ),
-          ],
+              const SizedBox(height: 30),
+
+              // Username Field
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.person, color: Colors.black),
+                  labelText: 'Username',
+                  labelStyle: const TextStyle(color: Colors.black,fontFamily: "Crimson"),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Password Field
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                  labelText: 'Password',
+                  labelStyle: const TextStyle(color: Colors.black,fontFamily: "Crimson"),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 30),
+
+              // Login Button
+              ElevatedButton(
+                onPressed: () {
+                  if (_usernameController.text == "user" &&
+                      _passwordController.text == "pass") {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Dashboard()),
+                    );
+                  }
+                  else if(_usernameController.text.isEmpty &&
+                      _passwordController.text.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter username and password'),
+                        ),
+                    );
+                  }
+                  else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Invalid username or password'),
+                      ),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 10,
+                  backgroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(fontSize: 14, color: Colors.white,fontFamily: "Crimson"),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'or',
+                style: TextStyle(color: Colors.black, fontSize: 16,fontFamily: "Crimson"),
+              ),
+              const SizedBox(height: 20),
+
+              // Register Button
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Register()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 10,
+                  backgroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text(
+                  'Register',
+                  style: TextStyle(fontSize: 14, color: Colors.white,fontFamily: "Crimson"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

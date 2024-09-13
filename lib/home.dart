@@ -5,6 +5,8 @@ import 'package:foodbite/qrcode.dart';
 import 'package:foodbite/recharge.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -22,11 +24,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Welcome Username',
               style: TextStyle(
                 fontSize: 24.0,
@@ -34,28 +36,32 @@ class _HomeState extends State<Home> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20.0),
-            Card(
-              color: Colors.white,
-              elevation: 3.0,
+            const SizedBox(height: 20.0),
+            Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Center(
+                    const Center(
                       child: Text("Wallet",style: TextStyle(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold)),
                     ),
                     Center(
                       child: Text(
                         'Rs.${_walletAmount.toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -67,62 +73,76 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       },
-                      child: Text('Recharge Wallet'),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                      child: const Text('Recharge Now',style: TextStyle(fontWeight: FontWeight.bold),),
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                  label: Text('Scan Food'),
-                  icon: Icon(Icons.qr_code_scanner),
+                  label: const Text('Show QR',style: TextStyle(color: Colors.black)),
+                  icon: const Icon(Icons.qr_code_scanner,color: Colors.black,),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(160, 80),
+                    minimumSize: const Size(140, 50),
                     backgroundColor: Colors.white,
+                    shadowColor: Colors.purple,
+                    side: const BorderSide(color: Colors.purple,width: 2),
+                    elevation: 5,
                   ),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => QRCode()));
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 ElevatedButton.icon(
-                  label: Text('Order Food'),
-                  icon: Icon(Icons.restaurant_menu),
+                  label: const Text('Order Food',style: TextStyle(color: Colors.black)),
+                  icon: const Icon(Icons.restaurant_menu,color: Colors.black,),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(160, 80),
+                    minimumSize: const Size(140, 50),
                     backgroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.purple,width: 2),
+                    elevation: 5,
+                    overlayColor: Colors.purple
                   ),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Foodorder()),
+                      MaterialPageRoute(builder: (context) => const Foodorder()),
                     );
                   },
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            ElevatedButton.icon(
-              label: Text('Order Addon'),
-              icon: Icon(Icons.add_shopping_cart),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(180, 80),
-                backgroundColor: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Addon()),
-                );
-              },
+            const SizedBox(height: 20),
+            Flex(
+              direction: axisDirectionToAxis(AxisDirection.down),
+              children: [
+                ElevatedButton.icon(
+                label: const Text('Order Addon',style: TextStyle(color: Colors.black)),
+                icon: const Icon(Icons.add_shopping_cart,color: Colors.black,),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(140, 50),
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.purple,width: 2),
+                  elevation: 5,
+                  overlayColor: Colors.purple
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Addon()),
+                  );
+                },
+              ),],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             // Announcement panel
-            Card(
+            const Card(
               color: Colors.white,
               elevation: 3.0,
               child: Padding(

@@ -5,9 +5,11 @@ import 'package:foodbite/profile.dart';
 import 'package:foodbite/payment.dart';
 import 'package:foodbite/order.dart';
 import 'package:foodbite/logout.dart';
-import 'package:foodbite/pass.dart';
+import 'package:foodbite/password.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
   State<Dashboard> createState() => _DashboardState();
 }
@@ -19,13 +21,21 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Food Bite"),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+            ),
+          ),
+        ),
+        title: const Text("Food Bite",style: TextStyle(fontWeight: FontWeight.bold)),
+        foregroundColor: Colors.black,
         backgroundColor: Colors.purple,
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: const Icon(Icons.notifications),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationsPage()));
             },
           ),
         ],
@@ -35,9 +45,11 @@ class _DashboardState extends State<Dashboard> {
           padding: EdgeInsets.zero,
           children: [
             Container(
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.purple,
+              height: 170,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+                ),
               ),
               child: DrawerHeader(
                 padding: EdgeInsets.zero,
@@ -47,24 +59,25 @@ class _DashboardState extends State<Dashboard> {
                       top: 0,
                       right: 0,
                       child: IconButton(
-                        icon: Icon(Icons.close),
+                        icon: const Icon(Icons.close),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       top: 30,
                       left: 105,
                       child: Text(
                         "Username",
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.white,
                           fontSize: 20.0,
                         ),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       bottom: 10,
                       left: 120,
                       child: CircleAvatar(
@@ -77,8 +90,8 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.dashboard),
-              title: Text("Dashboard"),
+              leading: const Icon(Icons.dashboard),
+              title: const Text("Dashboard"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 setState(() {
@@ -87,8 +100,8 @@ class _DashboardState extends State<Dashboard> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.credit_card),
-              title: Text("Recharge"),
+              leading: const Icon(Icons.credit_card),
+              title: const Text("Recharge"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 setState(() {
@@ -97,8 +110,8 @@ class _DashboardState extends State<Dashboard> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.attach_money),
-              title: Text("My Bills"),
+              leading: const Icon(Icons.attach_money),
+              title: const Text("My Bills"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 setState(() {
@@ -107,8 +120,8 @@ class _DashboardState extends State<Dashboard> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.shopping_cart),
-              title: Text("My Orders"),
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text("My Orders"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 setState(() {
@@ -117,8 +130,8 @@ class _DashboardState extends State<Dashboard> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text("Profile"),
+              leading: const Icon(Icons.person),
+              title: const Text("Profile"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 setState(() {
@@ -127,31 +140,30 @@ class _DashboardState extends State<Dashboard> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text("Notification"),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                setState(() {
-                  currentPageIndex = 2; // Set index to Home
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.lock),
-              title: Text("Change Password"),
+              leading: const Icon(Icons.notifications),
+              title: const Text("Notification"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Pass()));
+                    MaterialPageRoute(builder: (context) => const NotificationsPage()));
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text("Log out"),
+              leading: const Icon(Icons.lock),
+              title: const Text("Change Password"),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Logout()));
+                    MaterialPageRoute(builder: (context) => const Password()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Log out"),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Logout()));
               },
             ),
           ],
@@ -199,11 +211,11 @@ class _DashboardState extends State<Dashboard> {
       body: IndexedStack(
         index: currentPageIndex,
         children: [
-          Payment(),
-          Order(),
+          const Payment(),
+          const Order(),
           Home(),
-          Profile(),
-          Logout(),
+          const Profile(),
+          const Logout(),
         ],
       ),
     );

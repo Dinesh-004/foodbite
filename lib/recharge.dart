@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 class Recharge extends StatelessWidget {
   final void Function(double) onRecharge;
 
-  const Recharge({Key? key, required this.onRecharge}) : super(key: key);
+  const Recharge({super.key, required this.onRecharge});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment Options'),
+        title: const Text('Payment Options'),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           PaymentOption(
             title: 'UPI',
@@ -80,17 +80,17 @@ class PaymentOption extends StatelessWidget {
   final VoidCallback onTap;
 
   const PaymentOption({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 3.0,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         leading: Icon(icon),
         title: Text(title),

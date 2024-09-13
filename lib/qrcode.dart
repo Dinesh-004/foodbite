@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 // import 'package:qr_flutter/qr_flutter.dart';
 
 class QRCode extends StatelessWidget {
+  const QRCode({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Food Order QR Code'),
+        title: const Text('Food Order QR Code'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

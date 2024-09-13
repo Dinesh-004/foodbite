@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class UpiPayment extends StatelessWidget {
   final void Function(double) onSuccessfulPayment;
 
-  const UpiPayment({Key? key, required this.onSuccessfulPayment}) : super(key: key);
+  const UpiPayment({super.key, required this.onSuccessfulPayment});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UPI Payment'),
+        title: const Text('UPI Payment'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -18,7 +18,7 @@ class UpiPayment extends StatelessWidget {
             double amount = 50.0; // Example amount
             onSuccessfulPayment(amount);
           },
-          child: Text('Pay with UPI'),
+          child: const Text('Pay with UPI'),
         ),
       ),
     );

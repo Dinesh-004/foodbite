@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Foodorder extends StatefulWidget {
+  const Foodorder({super.key});
+
   @override
   State<Foodorder> createState() => _FoodorderState();
 }
@@ -8,7 +10,7 @@ class Foodorder extends StatefulWidget {
 class _FoodorderState extends State<Foodorder> {
   DateTime _selectedDate = DateTime.now();
 
-  Map<String, Map<String, List<String>>> _foodItems = {
+  final Map<String, Map<String, List<String>>> _foodItems = {
     'Monday': {
       'Breakfast': ['Dosa', 'Sambar', 'Tomato Chutney'],
       'Lunch': ['Rice', 'Curry'],
@@ -47,13 +49,13 @@ class _FoodorderState extends State<Foodorder> {
   };
 
   Map<String, List<String>>? _selectedFoodItems;
-  Map<String, bool> _selectedMeals = {
+  final Map<String, bool> _selectedMeals = {
     'Breakfast': false,
     'Lunch': false,
     'Dinner': false,
   };
 
-  Map<String, int> _mealPrices = {
+  final Map<String, int> _mealPrices = {
     'Breakfast': 30,
     'Lunch': 40,
     'Dinner': 40,
@@ -95,7 +97,7 @@ class _FoodorderState extends State<Foodorder> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
       selectableDayPredicate: (DateTime date) {
-        return date.isAfter(DateTime.now().subtract(Duration(days: 1)));
+        return date.isAfter(DateTime.now().subtract(const Duration(days: 1)));
       },
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
@@ -120,23 +122,30 @@ class _FoodorderState extends State<Foodorder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order Food'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+            ),
+          ),
+        ),
+        title: const Text('Order Food',style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           ListTile(
             title: Text(
                 'Selected Date: ${_selectedDate.toString().split(' ')[0]}'),
-            trailing: Icon(Icons.calendar_today),
+            trailing: const Icon(Icons.calendar_today),
             onTap: () => _selectDate(context),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Card(
             child: Column(
               children: [
                 ListTile(
-                  title: Text('Breakfast'),
+                  title: const Text('Breakfast'),
                   trailing: Switch(
                     value: _selectedMeals['Breakfast'] ?? false,
                     onChanged: (value) {
@@ -153,7 +162,7 @@ class _FoodorderState extends State<Foodorder> {
                     return ListTile(
                       title: Text(item),
                     );
-                  }).toList(),
+                  }),
               ],
             ),
           ),
@@ -161,7 +170,7 @@ class _FoodorderState extends State<Foodorder> {
             child: Column(
               children: [
                 ListTile(
-                  title: Text('Lunch'),
+                  title: const Text('Lunch'),
                   trailing: Switch(
                     value: _selectedMeals['Lunch'] ?? false,
                     onChanged: (value) {
@@ -178,7 +187,7 @@ class _FoodorderState extends State<Foodorder> {
                     return ListTile(
                       title: Text(item),
                     );
-                  }).toList(),
+                  }),
               ],
             ),
           ),
@@ -186,7 +195,7 @@ class _FoodorderState extends State<Foodorder> {
             child: Column(
               children: [
                 ListTile(
-                  title: Text('Dinner'),
+                  title: const Text('Dinner'),
                   trailing: Switch(
                     value: _selectedMeals['Dinner'] ?? false,
                     onChanged: (value) {
@@ -203,27 +212,28 @@ class _FoodorderState extends State<Foodorder> {
                     return ListTile(
                       title: Text(item),
                     );
-                  }).toList(),
+                  }),
               ],
             ),
           ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
+        color: Colors.black,
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total Price: Rs.$_totalPrice',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: Colors.purple,fontSize: 18, fontWeight: FontWeight.bold),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Implement checkout functionality
                 },
-                child: Text('Order'),
+                child: const Text('Order'),
               ),
             ],
           ),
