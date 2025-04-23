@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888405355350",
+    "project_id": "foodbite-3d993",
+    "storage_bucket": "foodbite-3d993.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888405355350:android:406cce687e23b3706044f7",
+        "android_client_info": {
+          "package_name": "com.example.foodbite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr6wchNFAypMYN7br6RNTZETMWKp9VjDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

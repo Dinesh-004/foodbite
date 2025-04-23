@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodbite/controllers/maincontroller.dart';
 import 'package:foodbite/foodorder.dart';
 import 'package:foodbite/addon.dart';
 import 'package:foodbite/qrcode.dart';
 import 'package:foodbite/recharge.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,13 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  double _walletAmount = 1000.0; // Example initial amount
-
-  void _rechargeWallet(double amount) {
-    setState(() {
-      _walletAmount += amount;
-    });
-  }
+  MainController mainController = Get.put(MainController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +24,17 @@ class _HomeState extends State<Home> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Welcome Username',
+            Obx(() {
+            return Text(
+              'Welcome, ${mainController.userEmail.value.split('@')[0].replaceAll(RegExp(r'[0-9]'), '').capitalize}',
               style: TextStyle(
+                //color: Colors.white,
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
-            ),
+            );
+            }),
             const SizedBox(height: 20.0),
             Container(
               decoration: BoxDecoration(
@@ -53,13 +52,15 @@ class _HomeState extends State<Home> {
                       child: Text("Wallet",style: TextStyle(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold)),
                     ),
                     Center(
-                      child: Text(
-                        'Rs.${_walletAmount.toStringAsFixed(2)}',
+                      child: Obx(() {
+                      return Text(
+                        'Rs.${mainController.wallet.value.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      );
+                      }),
                     ),
                     const SizedBox(height: 10.0),
                     ElevatedButton(
@@ -67,14 +68,12 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Recharge(
-                              onRecharge: _rechargeWallet,
-                            ),
+                            builder: (context) => Recharge()
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                      child: const Text('Recharge Now',style: TextStyle(fontWeight: FontWeight.bold),),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: const Text('Recharge Now',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
                     ),
                   ],
                 ),
@@ -82,14 +81,15 @@ class _HomeState extends State<Home> {
             ),
             const SizedBox(height: 20),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                  label: const Text('Show QR',style: TextStyle(color: Colors.black)),
-                  icon: const Icon(Icons.qr_code_scanner,color: Colors.black,),
+                  label: const Text('Show QR',style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.qr_code_scanner,color: Colors.white,),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(140, 50),
-                    backgroundColor: Colors.white,
+                    minimumSize: Size(100, 60),
+                    backgroundColor: Colors.black,
                     shadowColor: Colors.purple,
                     side: const BorderSide(color: Colors.purple,width: 2),
                     elevation: 5,
@@ -100,11 +100,12 @@ class _HomeState extends State<Home> {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton.icon(
-                  label: const Text('Order Food',style: TextStyle(color: Colors.black)),
-                  icon: const Icon(Icons.restaurant_menu,color: Colors.black,),
+                  label: const Text('Order Food',style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.restaurant_menu,color: Colors.white,),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(140, 50),
-                    backgroundColor: Colors.white,
+                    minimumSize: Size(100, 60),
+                    backgroundColor: Colors.black,
+                    shadowColor: Colors.purple,
                     side: const BorderSide(color: Colors.purple,width: 2),
                     elevation: 5,
                     overlayColor: Colors.purple
@@ -123,11 +124,12 @@ class _HomeState extends State<Home> {
               direction: axisDirectionToAxis(AxisDirection.down),
               children: [
                 ElevatedButton.icon(
-                label: const Text('Order Addon',style: TextStyle(color: Colors.black)),
-                icon: const Icon(Icons.add_shopping_cart,color: Colors.black,),
+                label: const Text('Order Addon',style: TextStyle(color: Colors.white)),
+                icon: const Icon(Icons.add_shopping_cart,color: Colors.white,),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(140, 50),
-                  backgroundColor: Colors.white,
+                  minimumSize: Size(100, 60),
+                  backgroundColor: Colors.black,
+                  shadowColor: Colors.purple,
                   side: const BorderSide(color: Colors.purple,width: 2),
                   elevation: 5,
                   overlayColor: Colors.purple
@@ -143,7 +145,6 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20.0),
             // Announcement panel
             const Card(
-              color: Colors.white,
               elevation: 3.0,
               child: Padding(
                 padding: EdgeInsets.all(20.0),

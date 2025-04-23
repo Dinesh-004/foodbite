@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:foodbite/login.dart';
+import 'package:foodbite/authmanagement/authmanage.dart';
+import 'package:foodbite/controllers/maincontroller.dart';
+import 'package:foodbite/signin.dart';
+import 'package:get/get.dart';
 
 class Password extends StatefulWidget {
   const Password({super.key});
@@ -9,203 +12,173 @@ class Password extends StatefulWidget {
 }
 
 class _PasswordState extends State<Password> {
-  final TextEditingController _curpasswordController = TextEditingController();
-  final TextEditingController _newpasswordController = TextEditingController();
-  final TextEditingController _repasswordController = TextEditingController();
-
+  bool ispass = true;
+  bool iscpass = true;
+  bool isrpass = true;
+  final _passformkey = GlobalKey<FormState>();
+  TextEditingController currpasswordcontroller = TextEditingController();
+  TextEditingController newpasswordcontroller = TextEditingController();
+  TextEditingController confirmpasswordcontroller = TextEditingController();
+  MainController mainController = Get.put(MainController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+      body: SafeArea(
+        child: Form(
+          key: _passformkey,
+          child: ListView(
+          children: [
+            Stack(
+              children: [
+                Center(
+                  child: Image.asset(
+                        'img/foodlogo.png',
+                        height: 300,
+                        width: 300,
+                        color: mainController.isDarkMode.value ? Colors.white : Colors.black,
+                        colorBlendMode: BlendMode.srcIn,
+                      ),
+                ),
+              Positioned(child: IconButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                }, 
+                icon: Icon(Icons.arrow_back),
+                ),
+              )
+              ]
             ),
-          ),
-        ),
-        title: const Text('Change Password',style: TextStyle(fontWeight: FontWeight.bold)),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+            Text("Change Password", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: TextFormField(
+                controller: currpasswordcontroller,
+                validator: (value){
+                  if(value!.isEmpty || mainController.userpass.value!= currpasswordcontroller.text){
+                    return "Please enter your current password";
+                  }
+                  return null;
+                },
+                cursorColor: Colors.red,
+                obscureText: ispass,
+                decoration: InputDecoration(
+                  label: Text("Current Password"),
+                  hintText: 'Enter your Current Password',
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    onPressed: (){
+                     setState(() {
+                        ispass = !ispass;
+                      });
+                    }, 
+                     icon: Icon(ispass ? Icons.visibility_off : Icons.visibility),
+                      )
+               ),
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Logo
-                Image.asset(
-                  'img/foodlogo.png',
-                  height: 150,
-                  width: 150,
-                ),
-                const SizedBox(height: 30),
-
-                // Login Text
-                const Text(
-                  'Change Password',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, fontFamily: "Crimson"
-                  ),
-                ),
-                const SizedBox(height: 30),
-
-                // Username Field
-                TextField(
-                  controller: _curpasswordController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                    labelText: 'Current Password',
-                    labelStyle: const TextStyle(color: Colors.black,fontFamily: "Crimson"),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // Password Field
-                TextField(
-                  controller: _newpasswordController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                    labelText: 'New Password',
-                    labelStyle: const TextStyle(color: Colors.black,fontFamily: "Crimson"),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 30),
-                TextField(
-                  controller: _repasswordController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                    labelText: 'Re-Enter new Password',
-                    labelStyle: const TextStyle(color: Colors.black,fontFamily: "Crimson"),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 30),
-                // Login Button
-                ElevatedButton(
-                  onPressed: () {
-                    if (_curpasswordController.text.isEmpty || _newpasswordController.text.isEmpty || _repasswordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter all fields'),
-                        ),
-                      );
-                    }
-                    else if(_curpasswordController.text == "pass" && _newpasswordController.text!=_repasswordController.text){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Re-Entered password mismatches with new password'),
-                        ),
-                      );
-                    }
-                    else if(_curpasswordController.text == "pass" && _newpasswordController.text.length<8 && _repasswordController.text.length<8){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('New Password length should be greater than 8 characters'),
-                        ),
-                      );
-                    }
-                    else if(_curpasswordController.text == "pass" && _newpasswordController.text==_repasswordController.text){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Password changed successfully'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }else if(_curpasswordController.text != "pass"){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Current Password Incorrect'),
-                        ),
-                      );
-                    }
-                    else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Invalid password'),
-                        ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    'Change Password',
-                    style: TextStyle(fontSize: 14, color: Colors.white,fontFamily: "Crimson"),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'or',
-                  style: TextStyle(color: Colors.black, fontSize: 16,fontFamily: "Crimson"),
-                ),
-                const SizedBox(height: 20),
-
-                // Register Button
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Login()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    'Back to login',
-                    style: TextStyle(fontSize: 14, color: Colors.white,fontFamily: "Crimson"),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: TextFormField(
+                controller: newpasswordcontroller,
+                validator: (value){
+                  if(value!.isEmpty){
+                    return "Please enter new password";
+                  }
+                  else if(value.length < 6){
+                    return "Password must be at least 6 characters long";
+                  }
+                  else if(value == currpasswordcontroller.text || value == mainController.userpass.value){
+                    return "New password cannot be same as old password";
+                  }
+                  return null;
+                },
+                cursorColor: Colors.red,
+                obscureText: iscpass,
+                decoration: InputDecoration(
+                  label: Text("New Password"),
+                  hintText: 'Enter your new Password',
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    onPressed: (){
+                     setState(() {
+                        iscpass = !iscpass;
+                      });
+                    }, 
+                     icon: Icon(iscpass ? Icons.visibility_off : Icons.visibility),
+                      )
+               ),
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: TextFormField(
+                controller: confirmpasswordcontroller,
+                validator: (value){
+                  if(value!.isEmpty){
+                    return "Please confirm your password";
+                  }
+                  else if(value != newpasswordcontroller.text){
+                    return "Passwords do not match";
+                  }
+                  return null;
+                },
+                cursorColor: Colors.red,
+                obscureText: isrpass,
+                decoration: InputDecoration(
+                  label: Text("Re-Enter Password"),
+                  hintText: 'Re-Enter your new Password',
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    onPressed: (){
+                     setState(() {
+                        isrpass = !isrpass;
+                      });
+                    }, 
+                     icon: Icon(isrpass ? Icons.visibility_off : Icons.visibility),
+                      )
+               ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                onPressed: (){
+                  if(_passformkey.currentState!.validate()){
+                    AuthManage().changePassword(newpasswordcontroller.text).then((value) {
+                      if(value == "success"){
+                        mainController.userpass.value = newpasswordcontroller.text;
+                        currpasswordcontroller.clear();
+                        newpasswordcontroller.clear();
+                        confirmpasswordcontroller.clear();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password Changed Successfully")));
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $value")));
+                      }
+                    });
+                  }
+                }, 
+                child: Text("Submit", style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold),),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff7d2fd0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Get.offAll(Signin());
+              }, 
+              child: Text('Go to Sign In',textAlign: TextAlign.center,),
+              )
+          ],
+        )
         ),
-      ),
+      )
     );
   }
 }

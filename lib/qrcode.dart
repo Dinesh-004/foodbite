@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class QRCode extends StatelessWidget {
   const QRCode({super.key});
@@ -8,16 +8,20 @@ class QRCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Food Order QR Code'),
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+              ),
+            ),
+          ),
+        title: Text('Food Order QR Code'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // QrImage(
-            //   data: orderDetails,
-            //   size: 200.0,
-            // ),
+            QrImageView(data: 'Order Details', size: 200.0,backgroundColor: Colors.white,),
             SizedBox(height: 20),
             Text(
               'Scan this QR code to view your food order details.',

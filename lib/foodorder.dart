@@ -95,7 +95,7 @@ class _FoodorderState extends State<Foodorder> {
       context: context,
       initialDate: _selectedDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
+      lastDate: DateTime.now().add(const Duration(days: 7)),
       selectableDayPredicate: (DateTime date) {
         return date.isAfter(DateTime.now().subtract(const Duration(days: 1)));
       },
@@ -129,111 +129,63 @@ class _FoodorderState extends State<Foodorder> {
             ),
           ),
         ),
-        title: const Text('Order Food',style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Order Food', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           ListTile(
-            title: Text(
-                'Selected Date: ${_selectedDate.toString().split(' ')[0]}'),
+            title: Text('Selected Date: ${_selectedDate.toString().split(' ')[0]}'),
             trailing: const Icon(Icons.calendar_today),
             onTap: () => _selectDate(context),
           ),
           const SizedBox(height: 10),
-          Card(
-            child: Column(
-              children: [
-                ListTile(
-                  title: const Text('Breakfast'),
-                  trailing: Switch(
-                    value: _selectedMeals['Breakfast'] ?? false,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedMeals['Breakfast'] = value;
-                        _updateTotalPrice();
-                      });
-                    },
+          ..._selectedMeals.keys.map((meal) {
+            return Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(meal),
+                    trailing: Switch(
+                      value: _selectedMeals[meal] ?? false,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedMeals[meal] = value;
+                          _updateTotalPrice();
+                        });
+                      },
+                    ),
                   ),
-                ),
-                if (_selectedFoodItems != null &&
-                    _selectedFoodItems!.containsKey('Breakfast'))
-                  ..._selectedFoodItems!['Breakfast']!.map((item) {
-                    return ListTile(
-                      title: Text(item),
-                    );
-                  }),
-              ],
-            ),
-          ),
-          Card(
-            child: Column(
-              children: [
-                ListTile(
-                  title: const Text('Lunch'),
-                  trailing: Switch(
-                    value: _selectedMeals['Lunch'] ?? false,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedMeals['Lunch'] = value;
-                        _updateTotalPrice();
-                      });
-                    },
-                  ),
-                ),
-                if (_selectedFoodItems != null &&
-                    _selectedFoodItems!.containsKey('Lunch'))
-                  ..._selectedFoodItems!['Lunch']!.map((item) {
-                    return ListTile(
-                      title: Text(item),
-                    );
-                  }),
-              ],
-            ),
-          ),
-          Card(
-            child: Column(
-              children: [
-                ListTile(
-                  title: const Text('Dinner'),
-                  trailing: Switch(
-                    value: _selectedMeals['Dinner'] ?? false,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedMeals['Dinner'] = value;
-                        _updateTotalPrice();
-                      });
-                    },
-                  ),
-                ),
-                if (_selectedFoodItems != null &&
-                    _selectedFoodItems!.containsKey('Dinner'))
-                  ..._selectedFoodItems!['Dinner']!.map((item) {
-                    return ListTile(
-                      title: Text(item),
-                    );
-                  }),
-              ],
-            ),
-          ),
+                  if (_selectedFoodItems != null && _selectedFoodItems!.containsKey(meal))
+                    ..._selectedFoodItems![meal]!.map((item) {
+                      return ListTile(
+                        title: Text(item),
+                      );
+                    }).toList(),
+                ],
+              ),
+            );
+          }).toList(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.zero,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          color: Colors.black,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total Price: Rs.$_totalPrice',
-                style: const TextStyle(color: Colors.purple,fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: Colors.purple, fontSize: 20, fontWeight: FontWeight.bold),
               ),
               ElevatedButton(
-                onPressed: () {
-                  // Implement checkout functionality
-                },
-                child: const Text('Order'),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                child: const Text('Order',style: TextStyle(color: Colors.purple)),
               ),
             ],
           ),

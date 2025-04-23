@@ -1,0 +1,2 @@
+D:/foodbite/android/app/.cxx/Debug/1h3b4l5y/x86/CMakeFiles/edit_cache.dir
+D:/foodbite/android/app/.cxx/Debug/1h3b4l5y/x86/CMakeFiles/rebuild_cache.dir

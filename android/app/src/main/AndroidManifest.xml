@@ -3,7 +3,7 @@
     <application
         android:label="foodbite"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/foodlogo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

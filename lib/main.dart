@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:foodbite/addon.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:foodbite/controllers/maincontroller.dart';
 import 'package:foodbite/dashboard.dart';
-import 'package:foodbite/foodorder.dart';
-import 'package:foodbite/login.dart';
-import 'package:foodbite/recharge.dart';
-import 'package:foodbite/home.dart';
+import 'package:foodbite/firebase_options.dart';
+import 'package:foodbite/signin.dart';
 import 'package:foodbite/splash.dart';
+import 'package:foodbite/theme/themes.dart';
+import 'package:get/get.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
+  final MainController mainController = Get.put(MainController(),permanent: true);
+  
+ @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Food Bite',
-      //theme: ThemeData(fontFamily: 'Crimson'),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-        useMaterial3: true,
+    return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppThemes.lightTheme,
+        darkTheme: AppThemes.darkTheme,
+          home: Splash(
+          onSplashComplete: () {
+            if (mainController.isLoggedIn.value) {
+              Get.offAll(() => Dashboard());
+            } else {
+              Get.offAll(() => Signin());
+            }
+          },
       ),
-      home: const Dashboard(),
-    );
+      );
   }
 }

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-// import 'package:foodbite/upi_payment.dart';
-// import 'package:foodbite/netbanking_payment.dart';
-// import 'package:foodbite/card_payment.dart';
+import 'package:foodbite/upi.dart';
 
 class Recharge extends StatelessWidget {
-  final void Function(double) onRecharge;
-
-  const Recharge({super.key, required this.onRecharge});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Payment Options'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xff7d2fd0), Color(0xff972ec6)],
+            ),
+          ),
+        ),
+        title: const Text('Payment Options',style: TextStyle(fontWeight: FontWeight.bold),),
+        foregroundColor: Colors.black,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -21,17 +24,12 @@ class Recharge extends StatelessWidget {
             title: 'UPI',
             icon: Icons.payment,
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => UpiPayment(
-              //       onSuccessfulPayment: (amount) {
-              //         onRecharge(amount);
-              //         Navigator.pop(context);
-              //       },
-              //     ),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpiPayment(),
+                ),
+              );
             },
           ),
           PaymentOption(

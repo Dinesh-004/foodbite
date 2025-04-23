@@ -1,29 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:foodbite/login.dart';
+import 'package:foodbite/controllers/maincontroller.dart';
+import 'package:foodbite/dashboard.dart';
+import 'package:foodbite/signin.dart';
+import 'package:get/get.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class Splash extends StatelessWidget {
+  const Splash({super.key, required this.onSplashComplete});
+  final VoidCallback onSplashComplete;
 
-  @override
-  State<Splash> createState() => _SplashState();
-}
-
-class _SplashState extends State<Splash> {
-  @override
-  void initState() {
-    super.initState();
-    // Wait for 5 seconds before navigating to the Login screen
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Login()), // Navigate to Login screen
-      );
-    });
-  }
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 3), onSplashComplete);
     return Scaffold(
       body: Stack(
         children: [Container(

@@ -15,6 +15,7 @@ class NotificationsPage extends StatelessWidget {
           ),
         ),
         title: const Text('Notifications',style: TextStyle(fontWeight: FontWeight.bold)),
+        foregroundColor: Colors.black,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
